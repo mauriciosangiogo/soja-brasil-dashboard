@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Data (não versionar dados brutos grandes)
+data/raw/*.csv
+data/raw/*.xlsx
+data/raw/*.xls
+!data/raw/.gitkeep
+
+# Outputs temporários
+*.png
+*.jpg
+*.pdf
+!outputs/figuras/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sensitive
+*.env
+.env
