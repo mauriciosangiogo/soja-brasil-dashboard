@@ -9,9 +9,20 @@ brasileira através de análise estatística com dados oficiais.
 
 ## 📊 Fontes de Dados
 
-- **CONAB**: Produção, área e custos
+- **CONAB**: Produção, Produtividade, Área - URL: https://www.gov.br/conab/pt-br/atuacao/informacoes-agropecuarias/safras/series-historicas/graos/soja/sojaseriehist.xls/view
 - **IBGE PAM**: Produção agrícola municipal
 - **CEPEA/ESALQ**: Preços históricos
+
+## Dados Utilizados
+
+**Fonte principal:** CONAB - Série Histórica de Safras
+- Período: 2010-2023
+- Justificativa: Especialização em grãos, dados de custos disponíveis
+
+**Validação:** IBGE PAM
+- Correlação com CONAB: r = 0.99
+- Diferença média: CONAB de 0,3 a 2,2% superior
+- Tendências temporais consistentes entre fontes
 
 ## 🛠️ Tecnologias
 
@@ -29,7 +40,7 @@ projeto-soja-brasil/
 ## 🚀 Status do Projeto
 
 - [x] Planejamento
-- [ ] Coleta de dados
+- [x] Coleta de dados
 - [ ] Análise exploratória
 - [ ] Modelagem estatística
 - [ ] Publicação
@@ -37,7 +48,7 @@ projeto-soja-brasil/
 ---
 
 **Autor:** Maurício  
-**Início:** 2024
+**Início:** 2025
 ```
 
 ---

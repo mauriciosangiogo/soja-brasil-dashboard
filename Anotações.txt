@@ -1,0 +1,10 @@
+- Criar pasta do projeto
+- Criar subdivisão de pastas do projeto
+- Criar ambiente virtual
+- Criar requirements (pode ser com base no projeto, ao final do projeto, mas preferencialmente antes)
+- Criar gitignore para informar o que não deverá ser carregado no GIT HUB
+- Criar README (notebook que irá para o GitHub)
+- ativar ambiente virtual e testar
+- abrir jupyter notebook
+- iniciar o git (aqui ele começa salvar o histórico de todas alterações - é um backup indispensável)
+

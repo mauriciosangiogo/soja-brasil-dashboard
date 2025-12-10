@@ -1,21 +1,32 @@
+# APAGAR o arquivo antigo
+Remove-Item requirements.txt
+
+# CRIAR arquivo NOVO com versões atualizadas
+Set-Content -Path requirements.txt -Value @"
 # Data manipulation
-pandas>=2.2.0
-numpy>=2.0.0
+pandas>=2.2.0,<3.0.0
+numpy>=1.26.0,<2.0.0
 
 # Statistical analysis
-scipy>=1.12.0
-statsmodels>=0.14.0
-scikit-learn>=1.4.0
+scipy>=1.12.0,<2.0.0
+statsmodels>=0.14.0,<0.15.0
+scikit-learn>=1.4.0,<2.0.0
 
 # Visualization
-matplotlib>=3.8.0
-seaborn>=0.13.0
-plotly>=5.18.0
+matplotlib>=3.8.0,<4.0.0
+seaborn>=0.13.0,<0.14.0
+plotly>=5.18.0,<6.0.0
 
 # Jupyter
 jupyter>=1.0.0
-ipykernel>=6.28.0
+ipykernel>=6.28.0,<7.0.0
 
 # Utilities
-openpyxl>=3.1.0
-requests>=2.31.0
+openpyxl>=3.1.0,<4.0.0
+requests>=2.31.0,<3.0.0
+"@
+
+# VERIFICAR que foi criado corretamente
+Get-Content requirements.txt
+
+# Deve mostrar as versões NOVAS (>=2.2.0, não ==2.1.0)
