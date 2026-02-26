@@ -37,3 +37,8 @@ Thumbs.db
 # Sensitive
 *.env
 .env
+.env.local
+.env.*.local
+
+# Streamlit secrets (NEVER commit!)
+.streamlit/secrets.toml

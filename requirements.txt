@@ -1,11 +1,19 @@
-# APAGAR o arquivo antigo
-Remove-Item requirements.txt
+# ============================================================================
+# SOJA BRASIL DASHBOARD - DEPENDÊNCIAS
+# ============================================================================
+# Dashboard Streamlit para análise econômica da soja brasileira
+# Autor: Maurício
+# ============================================================================
 
-# CRIAR arquivo NOVO com versões atualizadas
-Set-Content -Path requirements.txt -Value @"
+# Core - Streamlit
+streamlit>=1.35.0,<2.0.0
+
 # Data manipulation
 pandas>=2.2.0,<3.0.0
 numpy>=1.26.0,<2.0.0
+
+# Database - Supabase
+supabase>=2.10.0,<3.0.0
 
 # Statistical analysis
 scipy>=1.12.0,<2.0.0
@@ -17,16 +25,9 @@ matplotlib>=3.8.0,<4.0.0
 seaborn>=0.13.0,<0.14.0
 plotly>=5.18.0,<6.0.0
 
-# Jupyter
-jupyter>=1.0.0
-ipykernel>=6.28.0,<7.0.0
-
 # Utilities
 openpyxl>=3.1.0,<4.0.0
 requests>=2.31.0,<3.0.0
-"@
 
-# VERIFICAR que foi criado corretamente
-Get-Content requirements.txt
-
-# Deve mostrar as versões NOVAS (>=2.2.0, não ==2.1.0)
+# Environment variables (opcional - para desenvolvimento local)
+python-dotenv>=1.0.0,<2.0.0

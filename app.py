@@ -9,13 +9,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from supabase import create_client, Client
+from config import SupabaseConfig, AppConfig
 
 # Configuração da página
 st.set_page_config(
-    page_title="Soja Brasil - Análise Econômica",
-    page_icon="🌾",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title=AppConfig.PAGE_TITLE,
+    page_icon=AppConfig.PAGE_ICON,
+    layout=AppConfig.LAYOUT,
+    initial_sidebar_state=AppConfig.SIDEBAR_STATE
 )
 
 # Estilo CSS customizado
@@ -45,41 +46,46 @@ st.markdown("---")
 st.sidebar.title("⚙️ Configurações")
 st.sidebar.markdown("---")
 
-# Credenciais Supabase (use st.secrets em produção!)
-SUPABASE_URL = st.secrets.get("SUPABASE_URL", "https://pdqoaihshyrnmigymfnd.supabase.co")
-SUPABASE_KEY = st.secrets.get("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcW9haWhzaHlybm1pZ3ltZm5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MjA5NTIsImV4cCI6MjA4MDA5Njk1Mn0.RpFXusg0fMF8z4LVCKESBvdhjsCFD11mxDxQRmM8mYE")
+# Configuração do Supabase (agora gerenciada pelo config.py)
+try:
+    SUPABASE_URL = SupabaseConfig.get_url()
+    SUPABASE_KEY = SupabaseConfig.get_key()
+except ValueError as e:
+    st.error(f"❌ Erro de configuração: {e}")
+    st.info("📝 Configure suas credenciais em `.streamlit/secrets.toml`")
+    st.stop()
 
 # ============================================================================
 # CACHE: Carregar dados (só roda 1x)
 # ============================================================================
-@st.cache_data(ttl=3600)  # Cache por 1 hora
+@st.cache_data(ttl=AppConfig.CACHE_TTL)
 def carregar_dados():
     """Carrega e processa dados do Supabase"""
-    
+
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-    
-    # Carregar dados filtrados (2008-2024)
+
+    # Carregar dados filtrados (usando configurações centralizadas)
     df_conab = pd.DataFrame(
         supabase.table('df_conab')
         .select("*")
-        .gte('ano', 2008)
-        .lte('ano', 2024)
+        .gte('ano', AppConfig.ANO_INICIO)
+        .lte('ano', AppConfig.ANO_FIM)
         .execute().data
     )
-    
+
     df_custos = pd.DataFrame(
         supabase.table('df_custos')
         .select("uf, ano, custo_total, custo_fixo, custo_variavel, total_renda_fatores")
-        .gte('ano', 2008)
-        .lte('ano', 2024)
+        .gte('ano', AppConfig.ANO_INICIO)
+        .lte('ano', AppConfig.ANO_FIM)
         .execute().data
     )
-    
+
     df_preco = pd.DataFrame(
         supabase.table('df_preco')
         .select("*")
-        .gte('ano', 2008)
-        .lte('ano', 2024)
+        .gte('ano', AppConfig.ANO_INICIO)
+        .lte('ano', AppConfig.ANO_FIM)
         .execute().data
     )
     
@@ -145,7 +151,7 @@ with col1:
     st.metric(
         label="🌾 Produtividade Média",
         value=f"{prod_media:.1f} sc/ha",
-        delta=f"{prod_media - 50:.1f} vs baseline 50 sc/ha"
+        delta=f"{prod_media - AppConfig.BASELINE_PRODUTIVIDADE:.1f} vs baseline {AppConfig.BASELINE_PRODUTIVIDADE} sc/ha"
     )
 
 with col2:
@@ -168,7 +174,7 @@ with col4:
     st.metric(
         label="📈 ROI Médio",
         value=f"{roi_medio:.1f}%",
-        delta=f"{roi_medio - 30:.1f}% vs meta 30%"
+        delta=f"{roi_medio - AppConfig.META_ROI:.1f}% vs meta {AppConfig.META_ROI}%"
     )
 
 st.markdown("---")
@@ -239,7 +245,7 @@ st.markdown("## 🏆 Ranking de Estados por ROI")
 fig, ax = plt.subplots(figsize=(14, 6))
 
 ranking = df_filtrado.groupby('uf')['roi_percent'].mean().sort_values(ascending=True)
-cores = ['#4CAF50' if x > 30 else '#FF9800' if x > 15 else '#F44336' for x in ranking.values]
+cores = ['#4CAF50' if x > AppConfig.META_ROI else '#FF9800' if x > 15 else '#F44336' for x in ranking.values]
 
 bars = ax.barh(ranking.index, ranking.values, color=cores, edgecolor='black', linewidth=1.2)
 
@@ -248,7 +254,7 @@ for bar in bars:
     ax.text(width + 1, bar.get_y() + bar.get_height()/2, 
             f'{width:.1f}%', ha='left', va='center', fontweight='bold')
 
-ax.axvline(30, color='black', linestyle='--', linewidth=2, alpha=0.7, label='Meta: 30%')
+ax.axvline(AppConfig.META_ROI, color='black', linestyle='--', linewidth=2, alpha=0.7, label=f'Meta: {AppConfig.META_ROI}%')
 ax.set_xlabel('ROI Médio (%)', fontweight='bold')
 ax.set_title('ROI Médio por Estado', fontweight='bold', pad=20)
 ax.legend()
