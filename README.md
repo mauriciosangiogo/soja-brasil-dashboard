@@ -148,9 +148,9 @@ Este projeto é de código aberto e está disponível sob a licença MIT.
 
 **Maurício**
 
-- 📧 Email: [seu-email@exemplo.com]
+- 📧 Email: [ms_sangiogo@hotmail.com]
 - 💼 LinkedIn: [seu-linkedin]
-- 🐙 GitHub: [@seu-usuario]
+- 🐙 GitHub: [@mauriciosangiogo]
 
 ---
 
